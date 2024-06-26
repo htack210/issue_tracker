@@ -1,19 +1,25 @@
-import Link from "next/link";
-import React from "react";
-import { FaBug } from "react-icons/fa";
+"use client";
 
-const links = [
-  {
-    label: "Dashboard",
-    href: "/",
-  },
-  {
-    label: "Issues",
-    href: "/issues",
-  },
-];
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { FaBug } from "react-icons/fa";
+import classnames from "classnames";
 
 const NavBar = () => {
+  const currentPath = usePathname();
+
+  const links = [
+    {
+      label: "Dashboard",
+      href: "/",
+    },
+    {
+      label: "Issues",
+      href: "/issues",
+    },
+  ];
   return (
     <nav className="flex space-x-6 border-b border-t mb-5 px-5 h-14 items-center">
       <Link href="/">
@@ -23,7 +29,12 @@ const NavBar = () => {
         {links.map((link) => (
           <Link
             key={link.href}
-            className="text-sky-600 hover:bg-sky-600 hover:text-sky-100 rounded-xl px-4 transition-colors font-semibold"
+            className={classnames({
+              "border-2 border-sky-600": link.href === currentPath,
+              "border-0": link.href !== currentPath,
+              "text-sky-600 hover:bg-sky-600 hover:text-sky-100 rounded-xl px-4 transition-colors font-semibold":
+                true,
+            })}
             href={link.href}
           >
             {link.label}
